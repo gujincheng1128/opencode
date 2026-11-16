@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "instructions": [
+    "E:/知识库/AGENTS.md"
+  ],
+  "permission": {
+    "*": "ask",
+    "read": "allow",
+    "grep": "allow",
+    "glob": "allow",
+    "skill": {
+      "ai-coding-pipeline": "allow",
+      "m3-coding": "allow",
+      "m3-debug": "allow",
+      "m3-fusion": "allow",
+      "m3-pipeline": "allow",
+      "m3-suite": "allow",
+      "nihaixia": "allow",
+      "opencode-migrate": "allow",
+      "opencode-self-evolution": "allow",
+      "browser": "ask",
+      "opencode": "ask",
+      "report": "ask",
+      "m3-integrated": "ask",
+      "m3-evolution": "ask",
+      "m3-memory": "ask",
+      "opencode-self-evolving-memory": "ask",
+      "xiaoxue-core": "ask",
+      "*": "ask"
+    }
+  },
+  "provider": {
+    "openrouter": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OpenRouter",
+      "options": {
+        "baseURL": "https://openrouter.ai/api/v1",
+        "apiKey": "$OPENROUTER_API_KEY"
+      }
+    }
+  }
+}
