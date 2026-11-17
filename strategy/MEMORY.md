@@ -80,21 +80,25 @@
 
 ---
 
-## 4. 迁移映射表（C 盘 → G 盘，2026-11-16 实测生效）
+## 4. 迁移映射表（C 盘 → G 盘，2026-11-17 全面迁移实测生效）
 
 | C 盘源路径 | G 盘目标路径 | 链接类型 |
 |-----------|-------------|---------|
-| `%USERPROFILE%\.opencode` | `G:\opencode\.opencode` | junction |
-| `%USERPROFILE%\.config\opencode` | `G:\opencode\.opencode\config` | junction |
-| `%USERPROFILE%\.cache\opencode` | `G:\opencode\.opencode\cache` | junction |
-| `%APPDATA%\opencode` | `G:\opencode\.opencode\roaming` | junction |
-| `%LOCALAPPDATA%\opencode` | `G:\opencode\.opencode\local` | junction |
-| `%USERPROFILE%\.codearts\kernel\.opencode\agents` | `G:\opencode\.opencode\agents` | junction |
-| `%TEMP%\opencode` | `G:\opencode\.opencode\temp` | junction |
-| `%USERPROFILE%\.local\share\opencode` | `G:\opencode\.opencode\share` | junction（预案） |
-| `%USERPROFILE%\.local\state\opencode` | `G:\opencode\.opencode\state` | junction（预案） |
-| `%APPDATA%\ai.opencode.desktop` | `G:\opencode\.opencode\AppData\Roaming\ai.opencode.desktop` | junction（预案） |
-| `%LOCALAPPDATA%\Programs\OpenCode` | `G:\opencode\.opencode\AppData\Local\Programs\OpenCode` | junction（预案） |
+| `%USERPROFILE%\.config\opencode` | `G:\opencode\.opencode\migrated\config-opencode` | junction ✅ |
+| `%USERPROFILE%\.cache\opencode` | `G:\opencode\.opencode\migrated\cache-opencode` | junction ✅ |
+| `%USERPROFILE%\.local\share\opencode` | `G:\opencode\.opencode\share` | junction ✅ |
+| `%USERPROFILE%\.local\state\opencode` | `G:\opencode\.opencode\state` | junction ✅ |
+| `%APPDATA%\OpenCode`（EBWebView） | `G:\opencode\.opencode\migrated\roaming-opencode` | junction ✅ |
+| `%APPDATA%\ai.opencode.desktop` | `G:\opencode\.opencode\migrated\roaming-ai.opencode.desktop` | junction ✅ |
+| `%LOCALAPPDATA%\ai.opencode.desktop` | `G:\opencode\.opencode\migrated\local-ai.opencode.desktop` | junction ✅ |
+| `%LOCALAPPDATA%\@opencodedesktop-updater` | `G:\opencode\.opencode\migrated\local-opencodedesktop-updater` | junction ✅ |
+| `%LOCALAPPDATA%\@opencode-aidesktop-updater` | `G:\opencode\.opencode\migrated\local-opencode-aidesktop-updater` | junction ✅ |
+| `%TEMP%\opencode` | `G:\opencode\.opencode\temp\opencode` | junction ✅ |
+| `%USERPROFILE%\.opencode2dsh` | `G:\opencode\.opencode\migrated\opencode2dsh` | junction ✅ |
+| qianfan `...\migrated-bak\log\opencode(-router)` | `G:\opencode\.opencode\migrated\qianfan-log-*` | junction ✅ |
+| `%USERPROFILE%\.opencode` / `%LOCALAPPDATA%\opencode` / `%LOCALAPPDATA%\OpenCode` / `%LOCALAPPDATA%\Programs\OpenCode` | — | 空目录已删除 ✅ |
+
+> 2026-11-16 旧映射（`.opencode`/`.cache` 直连 `.opencode` 根等）已被本轮实际路径取代；`migrated\` 是本轮统一落位目录。迁移报告：`G:\opencode\.opencode\migrated\MIGRATION_REPORT.md`。
 
 ---
 
@@ -112,14 +116,15 @@
 
 ---
 
-## 6. 当前状态（2026-11-16 已核实）
+## 6. 当前状态（2026-11-17 全面迁移后实测）
 
 | 项目 | 数值 |
 |------|------|
-| C 盘真实 OpenCode 数据 | **0 字节**（0 MB） |
-| C 盘 Junction 数量 | 5 个（`.opencode` / `.config\opencode` / `.cache\opencode` / `%APPDATA%\opencode` / `%LOCALAPPDATA%\opencode`，全部指向 G 盘） |
-| 实际数据位置 | `G:\opencode\.opencode` |
-| OpenCode 程序位置 | `D:\opencode\opencode\OpenCode.exe` |
+| C 盘真实 OpenCode 数据 | **0 字节**（所有路径均为 junction 或已删除） |
+| C 盘 Junction 数量 | 13 个（`.opencode2dsh` / `.config\opencode` / `.cache\opencode` / `.local\share`+`state` / `Roaming\OpenCode` / `Roaming\ai.opencode.desktop` / `Local\ai.opencode.desktop` / 两个 updater / `Temp\opencode` / qianfan 两个 log） |
+| 实际数据位置 | `G:\opencode\.opencode`（share/state + migrated\ 1,267 MB + temp\opencode 505 MB） |
+| OpenCode 程序位置 | `G:\opencode\opencode\OpenCode.exe`（桌面主程序本体已在 G 盘） |
+| 迁移全程会话 | 10 个 opencode 进程零中断（含运行中 opencode-cli.exe 跨卷迁移成功） |
 
 ---
 
@@ -138,9 +143,13 @@
 
 ## 8. 技能加载策略（2026-11-16 最新指令，覆盖此前 m3-integrated 优先策略）
 
-### ⭐ 常驻白名单（仅 9 个，其余一律触发式）
+### ⭐ 常驻白名单（目标 10 个；其余一律触发式）
 
-`ai-coding-pipeline` / `m3-coding` / `m3-debug` / `m3-fusion` / `m3-pipeline` / `m3-suite` / `nihaixia` / `opencode-migrate` / `opencode-self-evolution`
+`ai-coding-pipeline` / `m3-coding` / `m3-debug` / `m3-fusion` / `m3-pipeline` / `m3-suite` / `nihaixia` / `opencode-migrate` / `opencode-evo-fusion` / `opencode-self-evolving-memory`
+
+**实际安装状态（2026-11-17）**：已常驻 7 个 = `ai-coding-pipeline`、`m3-coding`、`m3-debug`、`m3-fusion`、`m3-suite`、`opencode-evo-fusion`（v1.2.0 融合引擎）、`opencode-self-evolving-memory`；目标中 `m3-pipeline` / `nihaixia` / `opencode-migrate` 尚未创建（nihaixia 真身已定位 `G:\opencode\nihaixia-2.3.1`，待确认后注册），配置中仍保留 `allow` 以便创建后立即生效。
+
+**已移出常驻（归档保留）**：`evo-fusion`（被 opencode-evo-fusion 取代）、`m3-evolution`、`m3-integrated`、`m3-memory`、`xiaoxue-core` → `G:\AiSof\skill\_archived\not-resident-skills-20261117\`，需要时移回即恢复。
 
 ### 调用规则
 
@@ -156,13 +165,14 @@
 
 ### 权限对应（opencode.jsonc → permission.skill）
 
-- 上述 9 个常驻技能 = `allow`
-- 其余全部技能（含 5 个融合版技能与 browser/opencode/report）= `ask`，兜底 `"*": "ask"`
-- 注：全局 AGENTS.md 文件当前缺失，权限实际以 `opencode.jsonc` 为准；技能注册目录 `~/.config/opencode/skills/`（junction → `G:\AiSof\skill\`）不受影响，仅调用策略按本节执行。
+- 常驻白名单 10 个（含 3 个待创建目标）= `allow`
+- 其余全部技能（含 5 个已归档融合版技能、`opencode-self-evolution` 与 browser/opencode/report）= `ask`，兜底 `"*": "ask"`
+- 注：全局 AGENTS.md 文件当前缺失，权限实际以 `opencode.jsonc` 为准；技能注册目录（junction → `G:\opencode\.opencode\migrated\config-opencode\skills`）。
 
-### 注册技能清单（存档，10 个 junction，不因本策略删除）
+### 注册技能清单（存档，2026-11-17）
 
-`ai-coding-pipeline` / `m3-coding` / `m3-debug` / `m3-evolution` / `m3-fusion` / `m3-integrated` / `m3-memory` / `m3-suite` / `opencode-self-evolving-memory` / `xiaoxue-core`
+常驻 7：`ai-coding-pipeline` / `m3-coding` / `m3-debug` / `m3-fusion` / `m3-suite` / `opencode-evo-fusion` / `opencode-self-evolving-memory`
+归档 5：`evo-fusion` / `m3-evolution` / `m3-integrated` / `m3-memory` / `xiaoxue-core`（→ `not-resident-skills-20261117`）
 
 ---
 

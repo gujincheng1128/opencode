@@ -18,14 +18,15 @@
       "m3-suite": "allow",
       "nihaixia": "allow",
       "opencode-migrate": "allow",
-      "opencode-self-evolution": "allow",
+      "opencode-evo-fusion": "allow",
+      "opencode-self-evolving-memory": "allow",
       "browser": "ask",
       "opencode": "ask",
       "report": "ask",
+      "opencode-self-evolution": "ask",
       "m3-integrated": "ask",
       "m3-evolution": "ask",
       "m3-memory": "ask",
-      "opencode-self-evolving-memory": "ask",
       "xiaoxue-core": "ask",
       "*": "ask"
     }
